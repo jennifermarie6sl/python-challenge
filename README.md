@@ -1,2 +1,2 @@
 # python-challenge
-Bank and Polling Station Challengese
+Bank and Polling Station Challenges
