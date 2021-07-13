@@ -13,7 +13,7 @@ total_months = []
 #Dollar Variables
 p_l_start= 0
 net_change_list = []
-increase = []
+increase = [" ", " "]
 decrease = []
 
 #CSV file management
@@ -52,6 +52,9 @@ with open(budget_data_csv) as csv_file:
         
 
         increase = max(net_change_list)
+        if row ==increase:
+            increase[0] = row[0]
+            increase[1] = net_change_list
         #print(increase)
         
         decrease = min(net_change_list)
@@ -73,7 +76,7 @@ with open(budget_data_csv) as csv_file:
         #    f"Total: ${}\n"
         f"Average Change ${round(average, 2)}\n"
         f"Greatest Increase in Profits: (${increase})\n"
-        f"Greastest Decrease in Profits: (${decrease})\n")
+        f"Greatest Decrease in Profits: (${decrease})\n")
 
     print(output)
     #Total not working
