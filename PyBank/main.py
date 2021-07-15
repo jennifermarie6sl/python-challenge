@@ -15,6 +15,7 @@ p_l_start= 0
 net_change_list = []
 increase = [" ", " "]
 decrease = []
+#total = 0
 
 #CSV file management
 with open(budget_data_csv) as csv_file:
@@ -40,7 +41,9 @@ with open(budget_data_csv) as csv_file:
         months = months + 1
         #print(months)#prints list of count of months
         p_l_start = p_l_start + int(first_row[1])
-        #print(p_l_start)
+        #total = sum(p_l_start)
+        #print(total)
+        print(p_l_start)
         
         #Track new changes
         new_name= int(row[1]) - net_change
@@ -49,7 +52,9 @@ with open(budget_data_csv) as csv_file:
         months_changed = months_changed + [row[0]]
         #print(months_changed)
         #print(net_change_list)
-        
+        #value = row[1]
+        #total = sum(int(value))************************
+        #print(total)
 
         increase = max(net_change_list)
         if row ==increase:
@@ -61,19 +66,22 @@ with open(budget_data_csv) as csv_file:
         if row == decrease:
             decrease[0] = row[0]
             decrease[1] = net_change_list
-        #print(net_change)
+        #print(decrease)
 
     #Calcs:
     average = sum(net_change_list)/ len(net_change_list)
+    #print(net_change_list)
     #print(round(average, 2))
     #print(p_l_start)
-    print(p_l_start)
+    #value = row[1]
+    #total = sum(p_l_start)
+    #print(total)
 
         
     output = (f"\nFinancial Analysis\n"
         f"------------------------------------------------\n"
         f"Total Months: {months}\n"
-        #    f"Total: ${}\n"
+        #f"Total: ${}\n"
         f"Average Change ${round(average, 2)}\n"
         f"Greatest Increase in Profits: (${increase})\n"
         f"Greatest Decrease in Profits: (${decrease})\n")
