@@ -1,7 +1,7 @@
 import os
 import csv
 
-budget_data_csv = os.path.join(".", "PyBank", "Resources", "budget_data.csv")
+budget_data_csv = os.path.join(".", "Resources", "budget_data.csv")
 analysis_file = os.path.join("PyBank", "Analysis", "Analysis.txt")
 
 #defining variables
@@ -15,7 +15,6 @@ p_l_start= 0
 net_change_list = []
 increase = [" ", " "]
 decrease = []
-#total = 0
 
 #CSV file management
 with open(budget_data_csv) as csv_file:
@@ -23,39 +22,25 @@ with open(budget_data_csv) as csv_file:
     
     #Read/skip the header
     csv_header = next(csv_file)
-    #print (f'Header: {csv_header}')
-    
+       
     #extract first row to avoid appending to total
     first_row = next(csv_reader) 
-    #print(first_row) #tester to see if it returns value in first row
+        
+    #Place holders for starting points for "for loop"
     months = months + 1 #takes starting months value of 0 and adds 1
-    #print(months)
-    p_l_start = p_l_start + int(first_row[1])
-    #print(p_l_start)
+    p_l_start += int(first_row[1])
     net_change= int(first_row[1])
-    #print(net_change)
-    
+        
     for row in csv_reader:
         
-        #Start tracking
-        months = months + 1
-        #print(months)#prints list of count of months
-        p_l_start = p_l_start + int(first_row[1])
-        #total = sum(p_l_start)
-        #print(total)
-        print(p_l_start)
-        
         #Track new changes
+        months = months + 1
         new_name= int(row[1]) - net_change
         net_change = int(row[1])
+        p_l_start += net_change
         net_change_list = net_change_list + [new_name]
         months_changed = months_changed + [row[0]]
-        #print(months_changed)
-        #print(net_change_list)
-        #value = row[1]
-        #total = sum(int(value))************************
-        #print(total)
-
+        
         increase = max(net_change_list)
         if row ==increase:
             increase[0] = row[0]
@@ -66,26 +51,21 @@ with open(budget_data_csv) as csv_file:
         if row == decrease:
             decrease[0] = row[0]
             decrease[1] = net_change_list
-        #print(decrease)
+        #print(net_change)
 
     #Calcs:
     average = sum(net_change_list)/ len(net_change_list)
-    #print(net_change_list)
     #print(round(average, 2))
-    #print(p_l_start)
-    #value = row[1]
-    #total = sum(p_l_start)
-    #print(total)
-
-        
+  
     output = (f"\nFinancial Analysis\n"
         f"------------------------------------------------\n"
         f"Total Months: {months}\n"
-        #f"Total: ${}\n"
+        f"Total: ${p_l_start}\n"
         f"Average Change ${round(average, 2)}\n"
         f"Greatest Increase in Profits: (${increase})\n"
         f"Greatest Decrease in Profits: (${decrease})\n")
 
     print(output)
-    #Total not working
+    print("what?")
     #bring date and $ for increase and decrease
+    
