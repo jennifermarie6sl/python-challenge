@@ -1,7 +1,7 @@
 import os
 import csv
 
-budget_data_csv = os.path.join(".", "Resources", "budget_data.csv")
+budget_data_csv = os.path.join(".", "PyBank" ,"Resources", "budget_data.csv")
 analysis_file = os.path.join("PyBank", "Analysis", "Analysis.txt")
 
 #defining variables
@@ -13,8 +13,10 @@ total_months = []
 #Dollar Variables
 p_l_start= 0
 net_change_list = []
-increase = [" ", " "]
-decrease = []
+max_increase = 0
+max_decrease = 0
+max_increase_month = " "
+max_decrease_month = " "
 
 #CSV file management
 with open(budget_data_csv) as csv_file:
@@ -35,37 +37,42 @@ with open(budget_data_csv) as csv_file:
         
         #Track new changes
         months = months + 1
-        new_name= int(row[1]) - net_change
+        delta= int(row[1]) - net_change
         net_change = int(row[1])
-        p_l_start += net_change
-        net_change_list = net_change_list + [new_name]
+        p_l_start += (net_change)
+        net_change_list = net_change_list + [delta]
         months_changed = months_changed + [row[0]]
         
-        increase = max(net_change_list)
-        if row ==increase:
-            increase[0] = row[0]
-            increase[1] = net_change_list
-        #print(increase)
+        if net_change > max_increase:
+            max_increase = net_change
+            max_increase_month = [row[0]]
+        #print(max_increase)
         
-        decrease = min(net_change_list)
-        if row == decrease:
-            decrease[0] = row[0]
-            decrease[1] = net_change_list
-        #print(net_change)
+        #decrease = min(net_change_list)
+        if delta < max_decrease:
+            max_decrease = delta
+            max_decrease_month = row[0]
+        #print(decrease)
+        
 
     #Calcs:
     average = sum(net_change_list)/ len(net_change_list)
     #print(round(average, 2))
-  
+    #print(max_increase)
+    #print(net_change)
+    #print(max_decrease)
+    #print(max_decrease_month)
+    
     output = (f"\nFinancial Analysis\n"
-        f"------------------------------------------------\n"
+        f"------------------------------------------------------\n"
         f"Total Months: {months}\n"
-        f"Total: ${p_l_start}\n"
-        f"Average Change ${round(average, 2)}\n"
+        f"Total: ${p_l_start:,}\n"
+        f"Average Change ${round(average, 2):,}\n"
         f"Greatest Increase in Profits: (${increase})\n"
-        f"Greatest Decrease in Profits: (${decrease})\n")
+        f"Greatest Decrease in Profits: {max_decrease_month} (${max_decrease:,})\n")
 
     print(output)
-    print("what?")
-    #bring date and $ for increase and decrease
-    
+
+#with open(analysis_file ,"w") as txt_file:
+#    print(output, end="")    
+#txt_file.write(output)
