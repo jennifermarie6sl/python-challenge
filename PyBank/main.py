@@ -4,7 +4,7 @@ import csv
 budget_data_csv = os.path.join(".", "PyBank" ,"Resources", "budget_data.csv")
 analysis_file = os.path.join("PyBank", "Analysis", "Analysis.txt")
 
-#defining variables
+#defining variables:
 #Month Variables
 months = 0
 months_changed = []
@@ -13,6 +13,8 @@ total_months = []
 #Dollar Variables
 p_l_start= 0
 net_change_list = []
+
+#Max Variable
 max_increase = 0
 max_decrease = 0
 max_increase_month = " "
@@ -45,34 +47,24 @@ with open(budget_data_csv) as csv_file:
         
         if net_change > max_increase:
             max_increase = net_change
-            max_increase_month = [row[0]]
-        #print(max_increase)
+            max_increase_month = row[0]
         
-        #decrease = min(net_change_list)
         if delta < max_decrease:
             max_decrease = delta
-            max_decrease_month = row[0]
-        #print(decrease)
-        
+            max_decrease_month = row[0]   
 
     #Calcs:
     average = sum(net_change_list)/ len(net_change_list)
-    #print(round(average, 2))
-    #print(max_increase)
-    #print(net_change)
-    #print(max_decrease)
-    #print(max_decrease_month)
-    
+        
     output = (f"\nFinancial Analysis\n"
         f"------------------------------------------------------\n"
         f"Total Months: {months}\n"
         f"Total: ${p_l_start:,}\n"
         f"Average Change ${round(average, 2):,}\n"
-        f"Greatest Increase in Profits: (${increase})\n"
+        f"Greatest Increase in Profits: {max_increase_month} (${max_increase:,})\n"
         f"Greatest Decrease in Profits: {max_decrease_month} (${max_decrease:,})\n")
 
     print(output)
 
-#with open(analysis_file ,"w") as txt_file:
-#    print(output, end="")    
-#txt_file.write(output)
+with open(analysis_file ,"w") as txt_file:   
+    txt_file.write(output)
